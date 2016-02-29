@@ -1,0 +1,518 @@
+function vmdiagram
+h.fig=figure('position',[212 111 1000 600],...
+    'name','Shear Force Calculator');
+h.lengthofbeamtext=uicontrol('units','pixels',...
+    'style','text',...
+    'string','Length of Beam = ',...
+    'position',[20 450 90 30],...
+    'visible','on');
+h.lengthofbeamedit=uicontrol('position',[150 450 50 30],...
+    'style','edit',...
+    'string','',...
+    'visible','on');
+h.addsupportpb=uicontrol('style','push',...
+    'position',[20 340 100 100],...
+    'string','Add Support',...
+    'visible','on');
+    set(h.addsupportpb,'enable','on');
+h.pinsupportpb=uicontrol('style','push',...
+    'position',[130 360 80 70],...
+    'string','Pin support');
+    set(h.pinsupportpb,'visible','off');
+h.rollersupportpb=uicontrol('style','push',...
+    'position',[480 360 80 70],...
+    'string','Roller support');
+    set(h.rollersupportpb,'visible','off');
+    set(h.addsupportpb,'enable','on');
+h.positionofpinsupporttext=uicontrol('style','text',...
+    'position',[220 370 150 30],...
+    'string','Position of Pin Support = ');
+    set(h.positionofpinsupporttext,'visible','off');
+h.positionofpinsupportedit=uicontrol('style','edit',...
+    'position',[380 370 80 30],...
+    'string','');
+    set(h.positionofpinsupportedit,'visible','off');
+h.positionofrollersupporttext=uicontrol('style','text',...
+    'position',[570 370 150 30],...
+    'string','Position of Roller Support = ');
+    set(h.positionofrollersupporttext,'visible','off');
+h.positionofrollersupportedit=uicontrol('style','edit',...
+    'position',[730 370 80 30],...
+    'string','');
+    set(h.positionofrollersupportedit,'visible','off');
+    
+    %ADD_FORCE
+h.addforcepb=uicontrol('style','push',...
+    'position',[20 230 100 100],...
+    'string','Add Force',...
+    'visible','on');
+h.concentrated_forcepb=uicontrol('style','push',...
+    'position',[130 230 80 70],...
+    'string','Concentrated',...
+    'visible','off');
+h.distributed_forcepb=uicontrol('style','push',...
+    'position',[480 230 80 70],...
+    'string','Distributed',...
+    'visible','off');
+h.position_of_concentrated_forcetext=uicontrol('style','text',...
+    'position',[220 230 150 30],...
+    'string','Position of Concentrated Force = ');
+    set(h.position_of_concentrated_forcetext,'visible','off');
+h.position_of_concentrated_forceedit=uicontrol('style','edit',...
+    'position',[380 230 50 30],...
+    'string','');
+    set(h.position_of_concentrated_forceedit,'visible','off');
+h.magnitude_of_concentrated_forcetext=uicontrol('style','text',...
+    'position',[220 190 150 30],...
+    'string','Enter the magnitude of concentrated force = ')
+    set(h.magnitude_of_concentrated_forcetext,'visible','off');
+    
+h.magnitude_of_concentrated_forceedit=uicontrol('style','edit',...
+    'position',[380 190 50 30],...
+    'string','')
+    set(h.magnitude_of_concentrated_forceedit,'visible','off');
+h.position_of_distributed_forcetext1=uicontrol('style','text',...
+    'position',[570 250 150 30],...
+    'string','Enter the start position of Distributed Force = ');
+    set(h.position_of_distributed_forcetext1,'visible','off');
+h.position_of_distributed_forceedit1=uicontrol('style','edit',...
+    'position',[730 250 50 30],...
+    'string','')
+    set(h.position_of_distributed_forceedit1,'visible','off');
+
+h.position_of_distributed_forcetext2=uicontrol('style','text',...
+    'position',[570 210 150 30],...
+    'string','Enter the end position of Distributed Force = ');
+    set(h.position_of_distributed_forcetext2,'visible','off');
+h.position_of_distributed_forceedit2=uicontrol('style','edit',...
+    'position',[730 210 50 30],...
+    'string','')
+    set(h.position_of_distributed_forceedit2,'visible','off');
+    h.magnitude_of_distributed_forcetext1=uicontrol('style','text',...
+    'position',[800 250 150 30],...
+    'string','Enter the start magnitude of Distributed Force = ');
+    set(h.magnitude_of_distributed_forcetext1,'visible','off');
+h.magnitude_of_distributed_forceedit1=uicontrol('style','edit',...
+    'position',[960 250 50 30],...
+    'string','')
+    set(h.magnitude_of_distributed_forceedit1,'visible','off');
+
+h.magnitude_of_distributed_forcetext2=uicontrol('style','text',...
+    'position',[800 210 150 30],...
+    'string','Enter the end magnitude of Distributed Force = ');
+    set(h.magnitude_of_distributed_forcetext2,'visible','off');
+h.magnitude_of_distributed_forceedit2=uicontrol('style','edit',...
+    'position',[960 210 50 30],...
+    'string','')
+    set(h.magnitude_of_distributed_forceedit2,'visible','off');
+    
+
+% PLOT FUNCTIONS CALLS
+h.plotpb=uicontrol('style','push',...
+    'position',[900 100 80 80],...
+    'string','Plot',...
+    'visible','off');
+%calculator;    
+    
+    
+    
+    
+    
+%CALL_BACKS_SETS
+set(h.lengthofbeamedit,'callback',{@lengthofbeamedit_callback,h});
+set(h.addsupportpb,'callback',{@addsupportpb_callback,h});
+set(h.addforcepb,'callback',{@addforcepb_callback,h});
+
+
+    %ADD SUPPORT
+        %PIN SUPPORT
+set(h.pinsupportpb,'callback',{@pinsupportpb_callback,h});
+set(h.positionofpinsupportedit,'callback',{@positionofpinsupportedit_callback,h});
+        %ROLLER SUPPORT
+set(h.rollersupportpb,'callback',{@rollersupportpb_callback,h});
+set(h.positionofrollersupportedit,'callback',{@positionofrollersupportedit_callback,h});
+    %ADD FORCE
+        %CONCENTRATED FORCE
+set(h.concentrated_forcepb,'callback',{@concentratedforcepb_callback,h});
+set(h.magnitude_of_concentrated_forceedit,'callback',{@magnitude_of_concentrated_forceedit_callback,h});
+set(h.position_of_concentrated_forceedit,'callback',{@position_of_concentrated_forceedit_callback,h});
+        %DISTRIBUTED FORCE
+set(h.distributed_forcepb,'callback',{@distributedforcepb_callback,h});
+set(h.position_of_distributed_forceedit1,'callback',{@position_of_distributed_forceedit1_callback,h});
+set(h.position_of_distributed_forceedit2,'callback',{@position_of_distributed_forceedit2_callback,h});
+set(h.magnitude_of_distributed_forceedit1,'callback',{@magnitude_of_distributed_forceedit1_callback,h});
+set(h.magnitude_of_distributed_forceedit2,'callback',{@magnitude_of_distributed_forceedit2_callback,h});
+    %PLOT CALLBACKS
+set(h.plotpb,'callback',{@plotpb_callback,h});
+
+
+
+
+
+
+
+end
+function lengthofbeamedit_callback(hObject,eventdata,h)
+lengthofbeam=str2num(get(h.lengthofbeamedit,'string'));
+end
+function addsupportpb_callback(hObject,eventdata,h)
+    set(h.pinsupportpb,'visible','on');
+    set(h.rollersupportpb,'visible','on');
+    set(h.pinsupportpb,'enable','on');
+    set(h.rollersupportpb,'enable','on');
+    set(h.pinsupportpb,'visible','on');
+    set(h.rollersupportpb,'visible','on');
+    set(h.addsupportpb,'enable','off');
+end
+function addforcepb_callback(hObject,eventdata,h)
+    set(h.concentrated_forcepb,'visible','on');
+    set(h.distributed_forcepb,'visible','on');
+    set(h.concentrated_forcepb,'enable','on');
+    set(h.distributed_forcepb,'enable','on');
+    set(h.addforcepb,'enable','off');
+    
+end
+function pinsupportpb_callback(hObject,eventdata,h)
+    set(h.rollersupportpb,'enable','off');
+    set(h.positionofpinsupporttext,'visible','on');
+    set(h.positionofpinsupportedit,'visible','on');
+    
+end
+function rollersupportpb_callback(hObject,eventdata,h)
+    set(h.rollersupportpb,'enable','off');
+    set(h.pinsupportpb,'enable','off');
+    set(h.positionofrollersupporttext,'visible','on');
+    set(h.positionofrollersupportedit,'visible','on');
+end
+function positionofpinsupportedit_callback(hObject,eventdata,h)
+    positionofpinsupport=str2num(get(h.positionofpinsupportedit,'string'));
+    set(h.addsupportpb,'enable','on');
+    set(h.pinsupportpb,'enable','off');
+    set(h.rollersupportpb,'enable','off');
+end
+function positionofrollersupportedit_callback(hObject,eventdata,h)
+    positionofrollersupport=str2num(get(h.positionofrollersupportedit,'string'));
+    set(h.addsupportpb,'enable','on');
+    set(h.pinsupportpb,'enable','off');
+    set(h.rollersupportpb,'enable','off');
+end
+function concentratedforcepb_callback(hObject,eventdata,h)
+    set(h.distributed_forcepb,'enable','off');
+    set(h.position_of_concentrated_forcetext,'visible','on');
+    set(h.position_of_concentrated_forceedit,'visible','on');
+    set(h.magnitude_of_concentrated_forcetext,'visible','on');
+    set(h.magnitude_of_concentrated_forceedit,'visible','on');
+    set(h.addforcepb,'enable','on');
+end
+function position_of_concentrated_forceedit_callback(hObject,eventdata,h)
+    h.position_of_concentrated_force=str2num(get(h.position_of_concentrated_forceedit,'string'));
+end
+function magnitude_of_concentrated_forceedit_callback(hObject,eventdata,h)
+    h.magnitude_of_concentrated_force=str2num(get(h.magnitude_of_concentrated_forceedit,'string'));
+end
+function distributedforcepb_callback(hObject,eventdata,h)
+    set(h.concentrated_forcepb,'enable','off');
+    set(h.position_of_distributed_forcetext1,'visible','on');
+    set(h.position_of_distributed_forceedit1,'visible','on');
+    set(h.position_of_distributed_forcetext2,'visible','on');
+    set(h.position_of_distributed_forceedit2,'visible','on');
+    set(h.magnitude_of_distributed_forcetext1,'visible','on');
+    set(h.magnitude_of_distributed_forceedit1,'visible','on');
+    set(h.magnitude_of_distributed_forcetext2,'visible','on');
+    set(h.magnitude_of_distributed_forceedit2,'visible','on');
+    set(h.addforcepb,'enable','on');
+    set(h.plotpb,'visible','on');
+end
+
+function position_of_distributed_forceedit1_callback(hObject,eventdata,h)
+    h.position_of_distributed_force1=str2num(get(h.position_of_distributed_forceedit1,'string'));
+end
+function position_of_distributed_forceedit2_callback(hObject,eventdata,h)
+    h.position_of_distributed_force2=str2num(get(h.position_of_distributed_forceedit2,'string'));
+end
+function magnitude_of_distributed_forceedit1_callback(hObject,eventdata,h)
+    h.magnitude_of_distributed_force1=str2num(get(h.magnitude_of_distributed_forceedit1,'string'));
+end
+function magnitude_of_distributed_forceedit2_callback(hObject,eventdata,h)
+    h.magnitude_of_distributed_force2=str2num(get(h.magnitude_of_distributed_forceedit2,'string'));
+end
+
+%PLOT ALGORITHMS 
+function plotpb_callback(hObject,eventdata,h)
+    
+    lengthofbeam=str2num(get(h.lengthofbeamedit,'string'));
+    x_a=str2num(get(h.positionofpinsupportedit,'string'));
+    x_b=str2num(get(h.positionofrollersupportedit,'string'));
+    x_conc=str2num(get(h.position_of_concentrated_forceedit,'string'));
+    Fc=str2num(get(h.magnitude_of_concentrated_forceedit,'string'));    
+    xd1=str2num(get(h.position_of_distributed_forceedit1,'string'));
+    xd2=str2num(get(h.position_of_distributed_forceedit2,'string'));
+    Fd1=str2num(get(h.magnitude_of_distributed_forceedit1,'string'));
+    Fd2=str2num(get(h.magnitude_of_distributed_forceedit2,'string'));
+    
+    distance_of_distributed_force=xd2-xd1;
+    factor=(distance_of_distributed_force/2)+xd1;
+    
+    Fb=(((Fd1)*(factor)*(distance_of_distributed_force))+(Fc*(x_conc-x_a)))/(x_b-x_a);
+    Fa=(Fd1*distance_of_distributed_force+Fc)-Fb;
+    limit=lengthofbeam+1;
+i=1;
+if Fd1==Fd2
+    factor=xd1+(distance_of_distributed_force/2);
+    Fb=(((Fd1)*(factor)*(distance_of_distributed_force))+(Fc*(x_conc-x_a)))/(x_b-x_a);
+    Fa=(Fd1*distance_of_distributed_force+Fc)-Fb;
+    temp1=Fd1;
+else
+    slope=(Fd2-Fd1)/distance_of_distributed_force;
+    if Fd1<Fd2
+        factor=xd1+(distance_of_distributed_force*(2*Fd2+Fd1))/(3*(Fd2+Fd1));
+        Fb=(  ( Fd1*distance_of_distributed_force + (Fd2-Fd1)*distance_of_distributed_force/2 )*factor+  Fc*(x_conc-x_a))/(x_b-x_a);
+        Fa=(( Fd1*distance_of_distributed_force + (Fd2-Fd1)*distance_of_distributed_force/2 )+Fc)-Fb;
+    elseif Fd1>Fd2
+        factor=xd1+(distance_of_distributed_force*(2*Fd2+Fd1))/(3*(Fd2+Fd1));
+        Fb=(  ( Fd2*distance_of_distributed_force + (Fd1-Fd2)*distance_of_distributed_force/2 )*factor+   Fc*(x_conc-x_a))/(x_b-x_a);
+        Fa=(( Fd2*distance_of_distributed_force + (Fd1-Fd2)*distance_of_distributed_force/2 )+Fc)-Fb;
+    end
+    
+end
+disp(Fb);
+disp(Fa);
+limit=lengthofbeam+1;
+i=1;
+while i>=1 && i<=limit        
+    if x_conc<xd1
+        if i>=1 && i<=x_conc+1
+            V(i)=Fa;
+        end 
+        if i>x_conc+1 && i<=xd1+1
+            V(i)=Fa-Fc;
+        end
+        if i>xd1+1 && i<=xd2+1
+            if Fd1<Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-Fc-temp1;
+            elseif Fd1>Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-Fc-temp1;
+            else
+                V(i)=Fa-Fc-temp1*(i-xd1-1);
+            end
+            
+        end
+        if i>xd2+1 && i<=limit
+            if Fd1==Fd2
+                V(i)=Fa-Fc-temp1*distance_of_distributed_force;
+            else
+                V(i)=Fa-Fc-temp1;
+            end
+        end
+        if i-1==x_a
+            V(i)=0;     
+            V(i+1)=Fa;
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+            x_conc=x_conc+1;
+        end
+        if i-1==x_conc
+            V(i)=Fa;
+            V(i+1)=Fa-Fc;
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+
+        end
+        if i-1==x_b
+            V(i)=-Fb;
+            V(i+1)=0;
+            limit=limit+1;
+            i=i+1;
+        end
+    
+    elseif x_conc>xd1
+        if i>=1 && i<=xd1+1
+            V(i)=Fa;
+        end 
+        if i>xd1+1 && i<=xd2+1
+            if Fd1<Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-temp1;
+            elseif Fd1>Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-temp1;
+            else
+                V(i)=Fa-temp1*(i-xd1-1);
+            end
+            temp=V(i);
+        end
+        if i>xd2+1 && i<=x_conc+1
+            V(i)=temp;
+        end
+        if i>x_conc+1 && i<=limit
+            V(i)=temp-Fc;
+        end
+        if i-1==x_a
+            V(i)=0;     
+            V(i+1)=Fa;
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+            x_conc=x_conc+1;
+        end
+        if i-1==x_conc
+            V(i)=temp;
+            V(i+1)=temp-Fc;
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+
+        end
+        if i-1==x_b
+            V(i)=-Fb;
+            V(i+1)=0;
+            limit=limit+1;
+            i=i+1;
+        end
+    elseif x_conc==xd1 || x_conc==xd2
+        if x_conc==xd1
+            tick=xd1;
+        elseif x_conc==xd2
+            tick=xd2;
+        end
+        if i>=1 && i<=xd1+1
+            V(i)=Fa;
+        end 
+        if i>xd1+1 && i<=xd2+1
+            if Fd1<Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-temp1;
+            elseif Fd1>Fd2
+                temp1=0.5*(Fd1+Fd1+(slope*(i-xd1-1)))*(i-xd1-1);
+                V(i)=Fa-temp1;
+            else
+                V(i)=Fa-temp1*(i-xd1-1);
+            end
+            temp=V(i);
+            tickIndex=i;
+            V(i)=V(tickIndex)+Fc;
+        end
+        
+        if i>xd2+1 && i<=x_conc+1
+            V(i)=temp;
+        end
+        if i>x_conc+1 && i<=limit
+            V(i)=temp-Fc;
+        end
+        if i-1==x_a
+            V(i)=0;     
+            V(i+1)=Fa;
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+            x_conc=x_conc+1;
+        end
+        if i-1==x_conc
+            if x_conc==xd1
+                V(i)=Fa;
+                V(i+1)=Fa-Fc;
+            elseif x_conc==xd2
+                V(i)=Fa;
+                V(i+1)=Fa-Fd1;
+            end
+            limit=limit+1;
+            i=i+1;
+            xd1=xd1+1;
+            xd2=xd2+1;
+            x_b=x_b+1;
+
+        end
+        if i-1==x_b
+            V(i)=-Fb;
+            V(i+1)=0;
+            limit=limit+1;
+            i=i+1;
+        end
+    end
+    i=i+1;
+end
+V(end)=0;
+t=size(V);
+i=1;
+numb=-1;
+limit=lengthofbeam+1;
+while i>=1 && i<=limit 
+    
+    if i-1==x_a        
+        X(i)=0;
+        numb=counter1(numb);
+        X(i+1)=numb;
+        limit=limit+1;
+        i=i+1;
+        xd1=xd1+1;
+        xd2=xd2+1;
+        x_b=x_b+1;
+        x_conc=x_conc+1;
+    
+    elseif i==x_conc
+        numb=counter1(numb);
+        X(i)=numb;
+        X(i+1)=numb;
+        limit=limit+1;
+        i=i+1;
+        xd1=xd1+1;
+        xd2=xd2+1;
+        x_b=x_b+1;
+        
+   
+    elseif i+1==x_b
+        numb=counter1(numb);
+        X(i)=numb;
+        X(i+1)=numb;
+        limit=limit+1;
+        i=i+1;
+        xd1=xd1+1;
+        xd2=xd2+1;
+        
+   
+    elseif i>=1 && i<=x_conc+1
+        numb=counter1(numb);
+        X(i)=numb;
+    
+    elseif i>x_conc+1 && i<=xd1+1
+        numb=counter1(numb);
+        X(i)=numb;
+    
+    elseif i>xd1+1 && i<=xd2+1
+        numb=counter1(numb);
+        X(i)=numb;
+    
+    elseif i>xd2+1 && i<=limit
+        numb=counter1(numb);
+        X(i)=numb;
+    end
+    i=i+1;
+
+
+end
+    disp(V)
+    disp(X)
+    X1=linspace(-2,lengthofbeam+2);
+    figure
+    plot(X,V,X1,0,'-');
+    hold on
+    axis([-2 lengthofbeam+2 -Fb-Fb/10 Fa+Fa/10])
+    
+end
+function numb=counter1(nao)
+    numb=nao+1;
+end
