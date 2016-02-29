@@ -1,0 +1,34 @@
+function mohr_circle(sigma_x,sigma_y,tao_xy)
+	center=(sigma_x+sigma_y)/2;
+	radius=sqrt(((sigma_x-sigma_y)/2)^2+tao_xy^2);
+	hold on
+	circle(center,0,radius);
+	x1=linspace(sigma_y,sigma_x);
+	y1=linspace(tao_xy,-tao_xy);
+	plot(x1,y1,'g');
+	x2=linspace(center-radius,center+radius);
+	y2=0;
+	plot(x2,y2,'r');
+	hold off
+	principle_theeta=0.5*(atan((2*tao_xy)/(sigma_x-sigma_y)))*180/pi;
+	str=['The angle of principle plane is= ',num2str(principle_theeta)];
+	disp(str);
+end
+
+function h=circle(x,y,r)
+	format short g
+	th = linspace(0,2*pi,1000);
+	xunit =r*cos(th)+x;
+	yunit =r*sin(th)+y;
+	h=plot(xunit,yunit);
+	axis equal
+	xlabel('Normal Stress');
+	ylabel('Shear Stress');
+	title('Mohr Circle');
+	str1=['\leftarrow \sigma1=',num2str(x+r)];
+	str2=['\sigma2= ',num2str(x-r),'\rightarrow'];
+	str3=['\leftarrow \tau= ',num2str(r)];
+	text(x+r,0,str1);
+	text(x-r-10,0,str2);
+	text(x,r-1,str3);
+end
